@@ -7,6 +7,7 @@ import teamRoutes from "./routes/teamRoutes";
 import jobRoutes from "./routes/jobRoutes";
 import applicationRoutes from "./routes/applicationRoutes";
 import adminRoutes from "./routes/adminRoutes";
+import authRoutes from "./routes/authRoutes";
 const app = express();
 
 app.use(cors());
@@ -26,4 +27,5 @@ app.use("/api/team", teamRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
 export default app;
