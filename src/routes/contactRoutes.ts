@@ -3,10 +3,10 @@ import { createContact, getContacts } from "../controllers/contactController";
 
 const router = express.Router();
 
-// POST - submit form
+// Create new contact (POST)
 router.post("/", createContact);
 
-// GET - admin view messages
+// Get all contacts (GET)
 router.get("/", getContacts);
 
 export default router;
