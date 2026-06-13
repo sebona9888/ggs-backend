@@ -14,7 +14,7 @@ async function createAdmin() {
         await bcrypt.hash("admin123", 10);
 
     await Admin.create({
-        email: "admin@example.com",
+        email: "admin@gmail.com",
         password: hashedPassword,
     });
 
