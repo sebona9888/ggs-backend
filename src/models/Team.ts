@@ -29,6 +29,25 @@ const teamSchema = new mongoose.Schema(
         image: {
             type: String,
             required: false
+        },
+        // ADDED FIELDS TO MATCH FRONTEND PORTRAITS
+        education: {
+            type: String,
+            required: false
+        },
+        experience: {
+            type: String,
+            required: false
+        },
+        skills: {
+            type: [String], // Array of strings
+            required: false,
+            default: []
+        },
+        highlights: {
+            type: [String], // Array of strings
+            required: false,
+            default: []
         }
     },
     {
