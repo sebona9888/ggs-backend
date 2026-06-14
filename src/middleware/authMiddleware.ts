@@ -1,8 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
+// extend Request type (better than any)
+interface AuthRequest extends Request {
+    user?: string | jwt.JwtPayload;
+}
+
 export const protect = (
-    req: Request,
+    req: AuthRequest,
     res: Response,
     next: NextFunction
 ) => {
@@ -22,8 +27,7 @@ export const protect = (
             process.env.JWT_SECRET as string
         );
 
-        // attach user to request
-        (req as any).user = decoded;
+        req.user = decoded; // now typed properly
 
         next();
     } catch (error) {
