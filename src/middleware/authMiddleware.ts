@@ -9,7 +9,7 @@ export const protect = (
     try {
         const authHeader = req.headers.authorization;
 
-        if (!authHeader) {
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({
                 message: "Not authorized",
             });
@@ -17,14 +17,17 @@ export const protect = (
 
         const token = authHeader.split(" ")[1];
 
-        jwt.verify(
+        const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET as string
         );
 
+        // attach user to request
+        (req as any).user = decoded;
+
         next();
-    } catch {
-        res.status(401).json({
+    } catch (error) {
+        return res.status(401).json({
             message: "Invalid token",
         });
     }
