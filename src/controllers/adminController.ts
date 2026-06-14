@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import Admin from "../models/Admin";
 
 /**
- * CREATE ADMIN (dynamic + secure)
+ * CREATE ADMIN
  */
 export const createAdmin = async (
     req: Request,
@@ -12,12 +12,6 @@ export const createAdmin = async (
 ) => {
     try {
         const { email, password } = req.body;
-
-        if (!email || !password) {
-            return res.status(400).json({
-                message: "Email and password are required",
-            });
-        }
 
         const existingAdmin = await Admin.findOne({ email });
 
@@ -59,12 +53,6 @@ export const loginAdmin = async (
     try {
         const { email, password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({
-                message: "Email and password are required",
-            });
-        }
-
         const admin = await Admin.findOne({ email });
 
         if (!admin) {
@@ -103,6 +91,27 @@ export const loginAdmin = async (
         });
     } catch (error) {
         console.error(error);
+        res.status(500).json({
+            message: "Server Error",
+        });
+    }
+};
+
+/**
+ * GET LOGGED IN ADMIN (/me)
+ */
+export const getMe = async (req: any, res: Response) => {
+    try {
+        const admin = await Admin.findById(req.user.id).select("-password");
+
+        if (!admin) {
+            return res.status(404).json({
+                message: "Admin not found",
+            });
+        }
+
+        res.json(admin);
+    } catch (error) {
         res.status(500).json({
             message: "Server Error",
         });
